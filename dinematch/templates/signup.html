@@ -1,24 +1,22 @@
-<!-- HTML (signup.html) -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="signup.css">
-</head>
-<body>
+{% extends './base.html' %}
+
+{% block head %}
+    <title>Signup</title>
+    <link rel="stylesheet" href="./../static/css/signup.css">
+{% endblock %}
+
+{% block body %}
     <div id="signup-container">
         <h1>Register</h1>
-        <form id="signup-form">
+        <form id="signup-form" method="post" action="/signup">
             <label for="first-name">First Name</label>
-            <input type="text" id="first-name" required>
+            <input type="text" id="first-name" name="name" required>
 
             <label for="last-name">Last Name</label>
             <input type="text" id="last-name" required>
 
             <label for="new-username">Username</label>
-            <input type="text" id="new-username" required>
+            <input type="text" id="new-username" name="username" required>
 
             <label for="age">Age</label>
             <input type="number" id="age" required>
@@ -31,13 +29,11 @@
             </select>
 
             <label for="new-password">Password</label>
-            <input type="password" id="new-password" placeholder="password">
+            <input type="password" id="new-password" name="password" placeholder="password">
 
-            <button type="button" onclick="moveToLoginPage()">Sign Up</button>
+            <button type="submit">Sign Up</button>
         </form>
-        <p>Already have an account? <a href="index.html">Login</a></p>
+        <p>Already have an account? <a href="/login">Login</a></p>
     </div>
 
-    <script src="signup.js"></script>
-</body>
-</html>
+{% endblock %}
