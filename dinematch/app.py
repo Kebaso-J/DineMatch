@@ -1,28 +1,9 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
-from flask_login import login_required, LoginManager, current_user, login_user
+from flask_login import login_required, LoginManager, current_user, login_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
+from models import User, db
 
-db = SQLAlchemy()
 login_manager = LoginManager()
-
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
-
-
-class User(UserMixin, db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    password = db.Column(db.String(128))
-    username = db.Column(db.String(50), unique=True)
-    name = db.Column(db.String(50))
-
-    def set_password(self, password):
-        self.password = generate_password_hash(password)
-
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
-
-
 
 def create_app():
     # Create Flask app
@@ -66,6 +47,7 @@ def login():
         if user and user.check_password(password):
             login_user(user)
             next_page = request.args.get('next')
+            flash('Logged in successfully.', 'success')
             return redirect(next_page or url_for('profile'))
         else:
             flash('Invalid username or password', 'error')
@@ -74,15 +56,27 @@ def login():
 
 @app.route('/signup', endpoint='signup', methods=['GET', 'POST'])
 def signup():
-    """Signup code here"""
+    """Implement signup code here"""
 
     
     if request.method == "POST":
         name = request.form.get('name')
         password = request.form.get('password')
         username = request.form.get('username')
+        email = request.form.get('email')
+        date_of_birth = request.form.get('date_of_birth')
+        bio = request.form.get('bio')
+        location = request.form.get('location')
+        gender = request.form.get('gender')
 
-        user = User(name=name, username=username)
+
+    #Check if user exists
+        user = User.query.filter_by(username=username).first()
+        if user:
+            flash('Username already exists', 'error')
+            return redirect(url_for('signup'))
+                
+        user = User(name=name, username=username, email=email, date_of_birth=date_of_birth, bio=bio, location=location, gender=gender)
         user.set_password(password)
         print(user)
         db.session.add(user)
@@ -91,6 +85,15 @@ def signup():
 
 
     return render_template('signup.html')
+
+@app.route('/logout', endpoint='logout')
+@login_required
+def logout():
+    """Implement logout code here"""
+    if current_user.is_authenticated:
+        logout_user()
+        flash('Logged out successfully.', 'success')
+    return redirect(url_for('login'))
 
 @app.route('/', endpoint='profile')
 @login_required
