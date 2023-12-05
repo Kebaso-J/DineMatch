@@ -1,32 +1,50 @@
-
 {% extends './base.html' %}
 
 {% block head %}
-    <title>Profile</title>
-    <link rel="stylesheet" href="./../static/css/profile.css">
+<title>Profile</title>
+<link rel="stylesheet" href="./../static/css/profile.css">
 {% endblock %}
 
 {% block body %}
 
-    <div id="profile-container">
-        <div id="sidebar">
-            <h1 id="user-name">User's Name</h1>
+<div id="profile-container">
+    <div id="sidebar">
+        <h1 id="username">{{ user.username }}</h1>
 
-            <h2>User Information</h2>
-            <p id="username-label">Username: </p>
-            <p id="age-label">Age: </p>
-            <p id="gender-label">Gender: </p>
+        <h2>User Information</h2>
+        <p id="name">Name: {{ user.get_full_name() }}</p>
+        <p id="location">Location: {{ user.location }}</p>
+        <p id="age">Age: {{ user.calculate_age() }}</p>
+        <p id="gender">Gender: {{ user.gender }}</p>
 
-            <h2>Preferences</h2>
-            <p id="hobbies-label">Hobbies: </p>
-            <p id="dining-label">Dining Preferences: </p>
-            <a href="/logout">logout</a>
-        </div>
+        <h2>Preferences</h2>
+        <p id="hobby">Hobby: {{ user.hobby}}</p>
+        <br>
+        <!-- <p id="dining-label">Dining Preferences: </p> -->
+        <a class="btn btn-secondary" href="/edit-profile">Edit profile</a>
+        <a class="btn btn-secondary" href="/logout">logout</a>
+    </div>
 
-        <div id="content">
-            <h1>Welcome to your profile!</h1>
-            
+    <div id="content">
+        <h1>Welcome to your profile!</h1>
+        <div>
+            {% for matched_user in matched_users %}
+            <div class="card">
+                <!-- <img src="{{ matched_user.profile_picture }}" alt="Profile Picture"> -->
+                <div class="card-body">
+                    <h2 class="card-title">{{ matched_user.get_full_name() }}</h2>
+                    <p class="card-text">Age: {{ matched_user.calculate_age() }}</p>
+                    <p class="card-text">Location: {{ matched_user.location }}</p>
+                    <p class="card-text">Gender: {{ matched_user.gender }}</p>
+                    <p class="card-text">Hobby: {{ matched_user.hobby }}</p>
+                    <p class="card-text">Phone Number: {{ matched_user.phone_number }}</p>
+                </div>
+            </div>
+            {% else %}
+                <p>No Matches found.</p>
+            {% endfor %}
         </div>
     </div>
-    <script src="./../static/js/profile.js"></script>
+</div>
+<script src="./../static/js/profile.js"></script>
 {% endblock %}

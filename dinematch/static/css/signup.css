@@ -1,6 +1,6 @@
 /* CSS (styles.css) */
 
-#signup-container {
+.container {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
@@ -8,24 +8,24 @@
     border-radius: 5px;
 }
 
-#signup-form {
+form {
     display: flex;
     flex-direction: column;
 }
 
-#signup-form label {
+form label {
     margin-bottom: 8px;
 }
 
-#signup-form input,
-#signup-form select {
+form input,
+form select {
     width: 100%;
     padding: 8px;
     margin-bottom: 12px;
     box-sizing: border-box;
 }
 
-#signup-form button {
+form button {
     background-color: #4CAF50;
     color: white;
     padding: 10px;
@@ -34,6 +34,6 @@
     cursor: pointer;
 }
 
-#signup-form button:hover {
+form button:hover {
     background-color: #45a049;
 }

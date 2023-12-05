@@ -1,0 +1,44 @@
+{% extends './base.html' %}
+<!-- TODO: change styling and form field -->
+{% block head %}
+<title>Signup</title>
+<script src="https://unpkg.com/@yaireo/tagify"></script>
+<link rel="stylesheet" href="./../static/css/signup.css">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Edit Profile</h1>
+    <form method="POST" action="/edit-profile">
+        <label for="first-name">First Name</label>
+        <input type="text" id="first-name" name="first_name" value="{{ user.first_name }}" required>
+
+        <label for="last-name">Last Name</label>
+        <input type="text" id="last-name" name="last_name" value="{{ user.last_name }}" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ user.email }}" >
+
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" value="{{ user.location }}" >
+
+        <label for="bio">Bio</label>
+        <textarea id="bio" name="bio" >{{ user.bio }}</textarea>
+
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender" required>
+            <option value="male" {% if user.gender=='male' %}selected{% endif %}>Male</option>
+            <option value="female" {% if user.gender=='female' %}selected{% endif %}>Female</option>
+        </select>
+
+        <label for="hobbies">Hobby</label>
+        <input name='hobby' id='hobby' placeholder=''>
+
+        <!--  <label for="profile-picture">Profile Picture</label>
+        <input type="file" id="profile-picture" name="profile_picture"> -->
+
+        <input type="submit" value="Update Profile">
+    </form>
+</div>
+
+{% endblock %}
