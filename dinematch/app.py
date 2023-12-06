@@ -30,6 +30,7 @@ def create_app():
 
 app = create_app()
 
+login_manager.login_view = 'login'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -103,7 +104,7 @@ def logout():
 def profile():
     """profile code here"""
     if not current_user.is_authenticated:
-        return redirect(url_for('login', next='/profile'))
+        return redirect(url_for('login', next='/'))
 
     all_users = User.query.all()
     matched_users = []
@@ -135,7 +136,7 @@ def edit_profile():
 
         db.session.commit()
         flash('Profile edited successfully.', 'success')
-        return redirect('/profile')
+        return redirect('/')
 
     return render_template('edit-profile.html', user=current_user)
 
